@@ -3,8 +3,8 @@ module OscillatingIC
 
 using Printf
 using PyPlot
-using ForwardBackwardHeatProject
-using ForwardBackwardHeatProject.Parallel
+using ForwardBackwardHeat
+using ForwardBackwardHeat.Parallel
 using ExtendableGrids
 using GridVisualize
 using VoronoiFVM

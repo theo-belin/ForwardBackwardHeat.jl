@@ -2,8 +2,8 @@ module SteadyFront
 
 using Printf
 using PyPlot
-using ForwardBackwardHeatProject
-using ForwardBackwardHeatProject.Cubic
+using ForwardBackwardHeat
+using ForwardBackwardHeat.Cubic
 using ExtendableGrids
 using GridVisualize
 using VoronoiFVM

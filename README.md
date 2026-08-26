@@ -1,6 +1,6 @@
-# ForwardBackwardHeatProject
+# ForwardBackwardHeat
 
-[![Build Status](https://github.com/j-fu/ForwardBackwardHeatProject.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/j-fu/ForwardBackwardHeatProject.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Build Status](https://github.com/j-fu/ForwardBackwardHeat.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/j-fu/ForwardBackwardHeat.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 # Installing Julia
 

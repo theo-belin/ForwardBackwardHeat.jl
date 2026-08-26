@@ -2,8 +2,8 @@ module TestAux
 
 using Printf
 using PyPlot
-using ForwardBackwardHeatProject
-using ForwardBackwardHeatProject.PWLinear
+using ForwardBackwardHeat
+using ForwardBackwardHeat.PWLinear
 using GridVisualize
 
 function main()

@@ -1,6 +1,6 @@
 using Printf
 using PyPlot
-using ForwardBackwardHeatProject
+using ForwardBackwardHeat
 using ExtendableGrids
 using GridVisualize
 using VoronoiFVM

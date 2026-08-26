@@ -1,4 +1,4 @@
-module ForwardBackwardHeatProject
+module ForwardBackwardHeat
 
 using VoronoiFVM, ExtendableGrids
 using Interpolations
@@ -29,17 +29,17 @@ include("function_build.jl")
 export  construct_kappa_i, construct_gamma_eps, construct_phi_eps, auxiliaries
 
 module Cubic
-using ..ForwardBackwardHeatProject
+using ..ForwardBackwardHeat
 include("phi/Cubic.jl")
 end
 
 module Parallel
-using ..ForwardBackwardHeatProject
+using ..ForwardBackwardHeat
 include("phi/Parallel.jl")
 end
 
 module PWLinear
-using ..ForwardBackwardHeatProject
+using ..ForwardBackwardHeat
 include("phi/PWLinear.jl")
 end
 

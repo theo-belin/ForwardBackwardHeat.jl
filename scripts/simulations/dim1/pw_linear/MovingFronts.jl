@@ -2,8 +2,8 @@ module MovingFronts
 
 using Printf
 using PyPlot
-using ForwardBackwardHeatProject
-using ForwardBackwardHeatProject.PWLinear
+using ForwardBackwardHeat
+using ForwardBackwardHeat.PWLinear
 using ExtendableGrids
 using GridVisualize
 using VoronoiFVM
