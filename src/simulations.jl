@@ -1,87 +1,14 @@
-function heat_equation(u_0, sgrid, T; bc = "Neumann")
-
-    function flux(y, u, edge)
-        y[1] = u[1, 1] - u[1, 2]
-    end
-
-    function storage(y, u, node)
-        y .= u
-    end
-
-    function bcondition!(y, u, node)
-        if bc == "Dirichlet"
-            boundary_dirichlet!(y, u, node; value = 0)
-        else
-            boundary_neumann!(y, u, node; value = 0)
-        end
-    end
-
-    sys = VoronoiFVM.System(
-        sgrid;
-        flux, 
-        storage, 
-        species = [1], 
-        bcondition = bcondition!
-        )
-
-    sol = unknowns(sys)
-    sol[1,:] .= map(u_0, sgrid)
-    tsol = TransientSolution(T[1], sol)
-    nT = length(T)
-    for iT = 2:nT
-        Δt = T[iT] - T[iT-1]
-        # solve one timestep via Newton method
-        sol = VoronoiFVM.solve(
-            sol, sys; 
-            time = T[iT], tstep = Δt, 
-            called_from_API = true
-            )
-
-        append!(tsol, T[iT], sol)
-    end
-    tsol, sys
-end
-
-function nonlinear_diffusion(u_0, phi, sgrid, T)
-    function flux(y, u, edge)
-        y[1] = phi(u[1, 1]) - phi(u[1, 2])
-    end
-    function storage(y, u, node)
-        y .= u
-    end
-    sys = VoronoiFVM.System(
-        sgrid; 
-        flux, 
-        storage, 
-        species = [1]
-        )
-
-    sol = unknowns(sys)
-    sol[1,:] .= map(u_0, sgrid)
-    tsol = TransientSolution(T[1], sol)
-    nT = length(T)
-    for iT = 2:nT
-        Δt = T[iT] - T[iT-1]
-        # solve one time step via Newton method
-        sol = VoronoiFVM.solve(
-            sol, sys; 
-            time = T[iT], tstep = Δt, 
-            called_from_API = true
-            )
-        append!(tsol, T[iT], sol)
-    end
-    tsol, sys
-end
-
-## Solving for a general non-linear phi, in terms of gamma_eps and kappa. 
+# Solving for a general non-linear phi, in terms of gamma_eps and kappa. 
 
 function fbheat(u0, v0, lambda0, sgrid, T, data)
     """
-        u_0, lambda_0: compatible initial conditions.
-        phi_eps: (u, lambda) |-> v, the generalized potential (regularized or non-regularized).
-        kappa: the non-linear storage term.
+        u_0, v0, lambda_0: compatible initial conditions.
         sgrid: the spatial, simplex grid.
         T: the time discretization.
+        data: struct containing 
+            gamma_eps: (v,lambda) |-> lambda, the map for the hysteresis operator, 
+            kappa: (v, lambda) |-> u, the non-linear storage term,
+            phi_eps: (u, lambda) |-> v, the relaxed potential (regularized or non-regularized).
 
             Finite volume solver for the entropy solution of the forward backward nonlinear heat equation. 
     """
@@ -102,7 +29,7 @@ function fbheat(u0, v0, lambda0, sgrid, T, data)
     end
 
     function source!(y, node, data)
-        y[1] = data.source(node[1])
+        y[1] = data.source(node)
     end
 
     physics = VoronoiFVM.Physics(;
