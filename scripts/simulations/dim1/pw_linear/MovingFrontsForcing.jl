@@ -25,7 +25,8 @@ function main(; visualize = true)
 
 	x0 = (X_max+X_min)/2
 
-	function source(x)
+	function source(node)
+		x = node[1]
 		if x < x0
 			4
 		else
