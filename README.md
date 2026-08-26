@@ -10,7 +10,9 @@ To install Julia, follow the Julia documentation at https://julialang.org/downlo
 
 Open your terminal, go to the local folder containing the files of the project and run 
 >> julia --project=.
+
 and then in the REPL run
+
 >> using Pkg
 >> Pkg.instantiate()
 This installs the julia packages needed to run the code.
@@ -25,5 +27,4 @@ Choose a script, e.g. <scripts/simulations/dim1/pw_linear/MovingFronts.jl> and r
 
 # Modify a script
 
-You can modify a script directly, you will have to reload it after the modifications with another run of
->> include("scripts/simulations/dim1/pw_linear/MovingFronts.jl)
+You can modify a script directly, you don't have to reload it after the modifications thanks to the package Revise.jl. 
