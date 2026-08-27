@@ -5,6 +5,6 @@ c1 = sqrt(3)/3
 P1 = phi(c0)
 P0 = phi(c1)
 
-kappa, gamma_0, phi_0, gamma_eps, phi_eps = auxiliaries(phi, c0, c1, P0, P1)
+kappa, gamma_0, phi_0, gamma_eps, phi_eps = auxiliaries(phi, c0, c1, P0, P1; step = 0.001)
 
 export phi, c0, c1, P0, P1, kappa, gamma_0, phi_0, gamma_eps, phi_eps

@@ -7,13 +7,46 @@ P1 = 1.0
 function phi(u)
     if u <= c0
         ref(u + 2)
-    elseif u > c0 && u <= c1
+    elseif u > c0 && u < c1
         - u
     elseif u >= c1
         ref(u - 2)
     end
 end
 
+gamma_0 = construct_gamma_eps(P0, P1; eps = 0)
+gamma_eps = construct_gamma_eps(P0, P1; eps = 0.01)
+
+inv_ref = invert_monotone(ref; xmin = -5, xmax = 5, step = 0.001)
+
+function kappa0(v)
+    inv_ref(v) - 2
+end
+
+function kappa1(v)
+    inv_ref(v) + 2
+end
+
+function kappa(v,lambda)
+    (1-lambda)*kappa0(v) + lambda*kappa1(v)
+end
+
+s0 = kappa0(P0)
+s1 = kappa1(P1)
+
+function phi_0(u,lambda)
+    if u <= s0
+        phi(u)
+    elseif u > s0 && u < s0 + 4*lambda
+        P0
+    elseif u >= s0 + 4*lambda && u <= s1 - 4*(1-lambda)
+        ref(u + 4*(1/2 - lambda))
+    elseif u > s1 - 4*(1-lambda) && u < s1
+        P1
+    else
+        phi(u)
+    end
+end
 # function phi_0(u,lambda)
 #     if u <= s0
 #         ref(u + 1)
@@ -28,10 +61,4 @@ end
 #     end
 # end
 
-kappa, gamma_0, phi_0, gamma_eps, phi_eps = auxiliaries(
-    phi, c0, c1, P0, P1;
-    umin = -7, umax = 7,
-    vmin = -5, vmax = 5,
-    step = 0.001)
-
-export phi, c0, c1, P0, P1, kappa, gamma_0, phi_0, gamma_eps, phi_eps
+export phi, c0, c1, P0, P1, kappa, gamma_0, phi_0
