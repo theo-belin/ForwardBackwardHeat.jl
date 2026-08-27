@@ -17,7 +17,20 @@ end
 
 function source(node)
 	x, y = node[1], node[2]
-	2*pi^2*cos(pi*x)*cos(pi*y)
+	4*pi^2*cos(pi*x)*cos(pi*y)
+end
+
+# Steady sate with the above source term 
+function v0_ini(x, y)
+	2*cos(pi*x)*cos(pi*y)
+end
+
+function lambda0_ini(x, y)
+	if x > -1/2 && x < 1/2 && y > -1/2 && y < 1/2
+		1
+	else
+		0
+	end
 end
 
 function main(;visualize = true, test = false, p = 2)
@@ -89,19 +102,6 @@ function convergence_error(pb_data; p = 2)
 
 	T_max = 1
 
-	# Steady sate with the source term 
-	function v0_ini(x, y)
-		cos(pi*x)*cos(pi*y)
-	end
-
-	function lambda0_ini(x, y)
-		if x > -1/2 && x < 1/2 && y > -1/2 && y < 1/2
-			1
-		else
-			0
-		end
-	end
-
 	u0, v0, lambda0 = prepare_IC_2D(
 		gamma_0, kappa, 
 		v0_ini, lambda0_ini
@@ -120,7 +120,7 @@ function convergence_error(pb_data; p = 2)
 		sgrid = simplexgrid(X, X)
 
 		# Time discretisation
-		k = h/2
+		k = h/8
 		T = k:k:T_max
 
 		tu, tv, tlambda, sys = fbheat(

@@ -15,12 +15,59 @@ mutable struct ProblemData
 	source::Any
 end
 
-function source(node)
+# v, lambda and f for smooth steady state
+function source_smooth(node)
 	x = node[1]
 	pi^2*cos(pi*x)
 end
 
-function main(;visualize = true, test = false, p = 2)
+function v0_smooth(x)
+	cos(pi*x)
+end
+
+
+function lambda0_smooth(x)
+	if x > -1/2 && x < 1/2
+		1.0
+	else
+		0.0
+	end
+end
+
+# v, lambda and f for the rough steady state
+function source_rough(node)
+	x = node[1]
+	if x > -1/2 && x < 1/2
+		2*pi^2*cos(2*pi*x)
+	else
+		0.0
+	end
+end
+
+function v0_rough(x)
+	if x > -1/2 && x < 1/2
+		1/2*cos(2*pi*x)
+	else
+		-1/2
+	end
+end
+
+
+function lambda0_rough(x)
+	if x > -1/4 && x < 1/4
+		1.0
+	else
+		0.0
+	end
+end
+
+function main(;type = "Smooth", visualize = true, test = false, p = 2)
+
+	if type == "Smooth"
+		source = source_smooth
+	else
+		source = source_rough
+	end
 
 	problem_data_PWL = ProblemData(
 		ForwardBackwardHeat.PWLinear.phi, 
@@ -29,7 +76,7 @@ function main(;visualize = true, test = false, p = 2)
 		ForwardBackwardHeat.PWLinear.phi_0, 
 		source
 	)
-	H, lp_error_PWL, l2h1_error_PWL = convergence_error(problem_data_PWL)
+	H, lp_error_PWL, l2h1_error_PWL = convergence_error(problem_data_PWL; type)
 
 	problem_data_Par = ProblemData(
 		ForwardBackwardHeat.Parallel.phi, 
@@ -38,7 +85,7 @@ function main(;visualize = true, test = false, p = 2)
 		ForwardBackwardHeat.Parallel.phi_0, 
 		source
 	)
-	_, lp_error_Par, l2h1_error_Par = convergence_error(problem_data_Par)
+	_, lp_error_Par, l2h1_error_Par = convergence_error(problem_data_Par; type)
 
 	problem_data_Cub = ProblemData(
 		ForwardBackwardHeat.Cubic.phi, 
@@ -47,20 +94,20 @@ function main(;visualize = true, test = false, p = 2)
 		ForwardBackwardHeat.Cubic.phi_0, 
 		source
 	)
-	_, lp_error_Cub, l2h1_error_Cub = convergence_error(problem_data_Cub)
+	_, lp_error_Cub, l2h1_error_Cub = convergence_error(problem_data_Cub; type)
 
 	if visualize
 		p = GridVisualizer(; Plotter = PyPlot, layout = (1, 2), legend = :rt, fast = true, size = (1000, 600))
 		scalarplot!(
 			p[1, 1], log10.(H.^(-1)), log10.(lp_error_PWL.^(-1)); label = "PWL", color = :blue,  
-			title = L"Convergence error in $L^2_{t,x}$", xlabel = L"$\log(1/h)$", ylabel = L"$-\log$-Error",
+			title = L"Convergence error in $L^2_{t,x}$", xlabel = L"$-\log(h)$", ylabel = L"$-\log$-Error",
 			markershape = :circle, markevery = 1
 		)
 		scalarplot!(p[1, 1], log10.(H.^(-1)), log10.(lp_error_Par.^(-1)); label = "Par", color = :green,clear = false)
 		scalarplot!(p[1, 1], log10.(H.^(-1)), log10.(lp_error_Cub.^(-1)); label = "Cub", color = :red, clear = false)
 		scalarplot!(
 			p[1, 2], log10.(H.^(-1)), log10.(l2h1_error_PWL.^(-1)); label = "PWL", color = :blue,
-			title = L"Convergence error in $L^2_tH^1_x$", xlabel = L"$\log(1/h)$", ylabel = L"$-\log$-Error", 
+			title = L"Convergence error in $L^2_tH^1_x$", xlabel = L"$-\log(h)$", ylabel = L"$-\log$-Error", 
 			markershape = :circle, markevery = 1
 		)
 		scalarplot!(p[1, 2], log10.(H.^(-1)), log10.(l2h1_error_Par.^(-1)); label = "Par", color = :green, clear = false)
@@ -76,7 +123,15 @@ function main(;visualize = true, test = false, p = 2)
 	
 end
 
-function convergence_error(pb_data; p = 2)
+function convergence_error(pb_data; type = "Smooth", p = 2)
+
+	if type == "Smooth"
+		v0_ini = v0_smooth
+		lambda0_ini = lambda0_smooth
+	else
+		v0_ini = v0_rough
+		lambda0_ini = lambda0_rough
+	end
 
 	# Unpacking problem data
 	gamma_0, kappa = pb_data.gamma_eps, pb_data.kappa
@@ -89,28 +144,15 @@ function convergence_error(pb_data; p = 2)
 
 	T_max = 1
 
-	# Steady sate with the source term 
-	function v0_ini(x)
-		cos(pi*x)
-	end
-
-	function lambda0_ini(x)
-		if x > -1/2 && x < 1/2
-			1
-		else
-			0
-		end
-	end
-
 	u0, v0, lambda0 = prepare_IC(
 		gamma_0, kappa, 
 		v0_ini, lambda0_ini
 	)
 	
 	# Sequence of mesh sizes
-	H = [0.5, 0.2, 0.1, 0.05, 0.02, 0.01]
-	lp_error = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-	l2h1_error = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	H =[0.5, 0.2, 0.1, 0.05, 0.02, 0.01, 0.005]
+	lp_error = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	l2h1_error = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 	for i = 1:length(H)
 		h = H[i]
