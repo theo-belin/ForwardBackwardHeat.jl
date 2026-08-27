@@ -26,7 +26,7 @@ function main(; visualize = true, test = false)
 	# Space discretization
 	h = 0.1
 	X = X_min:h:X_max
-	grid = simplexgrid(X)
+	sgrid = simplexgrid(X)
 
 	# Time discretization
 	k = h/80
@@ -48,7 +48,7 @@ function main(; visualize = true, test = false)
 	# Solver
 	tu_sat, tv_sat, tlambda_sat, _ = fbheat(
 		u0_sat, v0_sat, lambda0_sat, 
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	# Riemann data with non-saturated phase fraction
@@ -62,16 +62,8 @@ function main(; visualize = true, test = false)
 	# Solver
 	tu_unsat, tv_unsat, tlambda_unsat, _ = fbheat(
 		u0_unsat, v0_unsat, lambda0_unsat, 
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
-
-	print(u0_sat.(X))
-	print(v0_sat.(X))
-	print(lambda0_sat.(X))
-
-	print(tu_sat[1,:,1])
-	print(tv_sat[1,:,1])
-	print(tlambda_sat[1,:,1])
 
 	# Step-by-step visualization
 	if visualize
@@ -79,32 +71,32 @@ function main(; visualize = true, test = false)
 		for i in 1:10:length(tu_sat.t)
 			time = tu_sat.t[i]
 			scalarplot!(
-				p[1, 1], grid, tu_sat[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[1, 1], sgrid, tu_sat[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[1, 2], grid, tv_sat[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[1, 2], sgrid, tv_sat[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[1, 3], grid, tlambda_sat[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[1, 3], sgrid, tlambda_sat[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[2, 1], grid, tu_unsat[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[2, 1], sgrid, tu_unsat[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :red, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[2, 2], grid, tv_unsat[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[2, 2], sgrid, tv_unsat[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :red, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[2, 3], grid, tlambda_unsat[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[2, 3], sgrid, tlambda_unsat[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :red, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
