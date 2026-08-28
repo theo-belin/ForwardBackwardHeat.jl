@@ -1,5 +1,3 @@
-module TestAux
-
 using Printf
 using PyPlot
 using ForwardBackwardHeat
@@ -33,6 +31,4 @@ function main()
         markershape = :circle, markevery = 1
     )
     reveal(p)
-end
-
 end

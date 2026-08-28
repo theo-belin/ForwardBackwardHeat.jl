@@ -1,5 +1,3 @@
-module TestAux
-
 using Printf
 using PyPlot
 using ForwardBackwardHeat
@@ -41,6 +39,4 @@ function main()
         )
         reveal(p)
     end
-end
-
 end
