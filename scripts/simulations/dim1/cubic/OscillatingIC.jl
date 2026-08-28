@@ -27,7 +27,7 @@ function main(; visualize = true, test = false)
 	# Space discretisation
 	h = 0.2
 	X = X_min:h:X_max
-	grid = simplexgrid(X)
+	sgrid = simplexgrid(X)
 
 	# Time discretisation
 	k = h/80
@@ -61,17 +61,17 @@ function main(; visualize = true, test = false)
 
 	tu_r1, tv_r1, tlambda_r1, _ = fbheat(
 		u0_r1, v0_r1, lambda0_r1, 
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	tu_r2, tv_r2, tlambda_r2, _ = fbheat(
 		u0_r2, v0_r2, lambda0_r2, 
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	tu_sin, tv_sin, tlambda_sin, _ = fbheat(
 		u0_sin, v0_sin, lambda0_sin, 
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	if visualize
@@ -80,32 +80,32 @@ function main(; visualize = true, test = false)
 		for i in 1:10:length(tu_r1.t)
 			time = tu_r1.t[i]
 			scalarplot!(
-				p[1, 1], grid, tu_r1[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[1, 1], sgrid, tu_r1[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[2, 1], grid, tv_r1[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[2, 1], sgrid, tv_r1[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[3, 1], grid, tlambda_r1[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[3, 1], sgrid, tlambda_r1[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[1, 2], grid, tu_sin[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[1, 2], sgrid, tu_sin[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[2, 2], grid, tv_sin[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[2, 2], sgrid, tv_sin[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[3, 2], grid, tlambda_sin[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[3, 2], sgrid, tlambda_sin[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)

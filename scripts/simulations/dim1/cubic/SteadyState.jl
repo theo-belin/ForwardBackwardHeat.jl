@@ -1,4 +1,4 @@
-module MovingFrontsForcing
+module SteadyState
 
 using Printf
 using PyPlot
@@ -19,50 +19,55 @@ end
 
 function main(; visualize = true, test = false)
 
-	X_min = -1
-	X_max = 1
-	T_max = 1
+	# Space discretization
+	h = 0.1
+	X = -1:h:1
+    sgrid = simplexgrid(X)
 
-	x0 = (X_max+X_min)/2
+	# Time discretization
+	k = h/10
+	T= 0.1:k:1
 
+	# Source term
 	function source(node)
 		x = node[1]
-		if x < x0
+		pi^2*cos(pi*x)
+	end
+
+	## Create problem data structure
+    problem_data = ProblemData(phi, kappa, gamma_0, phi_0, source)
+
+	# Steady sate with the source term 
+	function v0_ini(x)
+		cos(pi*x)
+	end
+
+	function lambda0_ini(x)
+		if x > -1/2 && x < 1/2
 			1
 		else
 			0
 		end
 	end
 
-	# Create problem data structure
-	problem_data = ProblemData(phi, kappa, gamma_0, phi_0, source)
-
-
-	# Space discretisation
-	h = 0.05
-	X = X_min:h:X_max
-	sgrid = simplexgrid(X)
-
-	# Time discretisation
-	k = h/10
-	T = k:k:T_max
-
-	u0, v0, lambda0 = IC_riemann_1D(
+	# preparing IC
+	u0, v0, lambda0 = prepare_IC(
 		gamma_0, kappa, 
-		P1, P1, 
-		1, 0; 
-		x0 = x0
+		v0_ini, lambda0_ini
 	)
 
+	# Solver
 	tu, tv, tlambda, _ = fbheat(
 		u0, v0, lambda0, 
 		sgrid, T, problem_data
 	)
-
+	
+	# Step-by-step visualization
 	if visualize
-
 		p = GridVisualizer(; Plotter = PyPlot, layout = (3, 1), fast = true)
-		for i in 1:10:length(tu.t)
+		n_t = length(tu.t)
+		log_times = Int.(floor.((1.5).^(1:1:(log(n_t)/log(1.5)))))
+		for i = log_times
 			time = tu.t[i]
 			scalarplot!(
 				p[1, 1], sgrid, tu[1, :, i]; title = @sprintf("t=%.3g", time),
@@ -80,15 +85,13 @@ function main(; visualize = true, test = false)
 				markershape = :circle, markevery = 1
 			)
 			reveal(p)
-			sleep(1.0e-2)
+			sleep(1.0)
 		end
-    end
-
-	if test
-		print("MovingFrontsForcing.jl successful")
 	end
 
-	tu, tv, tlambda
+	if test
+		print("SteadyState.jl successful")
+	end
 end
 
 end

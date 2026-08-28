@@ -68,7 +68,9 @@ function main(; visualize = true, test = false)
 	# Step-by-step visualization
 	if visualize
 		p = GridVisualizer(; Plotter = PyPlot, layout = (2, 3), fast = true)
-		for i in 1:10:length(tu_sat.t)
+		n_t = length(tu_sat.t)
+		log_times = Int.(floor.((1.5).^(1:1:(log(n_t)/log(1.5)))))
+		for i = log_times
 			time = tu_sat.t[i]
 			scalarplot!(
 				p[1, 1], sgrid, tu_sat[1, :, i]; title = @sprintf("t=%.3g", time),

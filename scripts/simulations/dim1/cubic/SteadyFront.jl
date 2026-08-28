@@ -26,7 +26,7 @@ function main(; visualize = true, test = false)
 	# Space discretisation
 	h = 0.2
 	X = X_min:h:X_max
-	grid = simplexgrid(X)
+	sgrid = simplexgrid(X)
 
 	# Time discretisation
 	k = h/80
@@ -47,7 +47,7 @@ function main(; visualize = true, test = false)
 
 	tu, tv, tlambda, _ = fbheat(
 		u0, v0, lambda0, 
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	if visualize
@@ -55,17 +55,17 @@ function main(; visualize = true, test = false)
 		for i in 1:10:length(tu.t)
 			time = tu.t[i]
 			scalarplot!(
-				p[1, 1], grid, tu[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[1, 1], sgrid, tu[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[2, 1], grid, tv[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[2, 1], sgrid, tv[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)
 			scalarplot!(
-				p[3, 1], grid, tlambda[1, :, i]; title = @sprintf("t=%.3g", time),
+				p[3, 1], sgrid, tlambda[1, :, i]; title = @sprintf("t=%.3g", time),
 				color = :blue, label = "numerical",
 				markershape = :circle, markevery = 1
 			)

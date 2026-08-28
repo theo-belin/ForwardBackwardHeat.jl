@@ -22,7 +22,6 @@ function main(; visualize = true, test = false)
 	# Space discretization
 	h = 0.1
 	X = -1:h:1
-
     sgrid = simplexgrid(X)
 
 	# Time discretization

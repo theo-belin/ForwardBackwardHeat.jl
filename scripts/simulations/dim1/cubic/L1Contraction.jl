@@ -26,6 +26,7 @@ function main(; visualize = true, test = false)
 	# Space discretization
 	h = 0.2
 	X=X_min:h:X_max
+	sgrid = simplexgrid(X)
 
 	# Time discretization
 	T_max = 0.5
@@ -46,7 +47,7 @@ function main(; visualize = true, test = false)
 
 	tu_mf, tv_mf, tlambda_mf, sys = fbheat(
 		u0_mf, v0_mf, lambda0_mf,  
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	off_set = 0.1
@@ -59,7 +60,7 @@ function main(; visualize = true, test = false)
 
 	tu_mf_os, tv_mf_os, tlambda_mf_os, _ = fbheat(
 		u0_mf_os, v0_mf_os, lambda0_mf_os,
-		X, T, problem_data
+		sgrid, T, problem_data
 	)
 
 	# Construct the quantity that has L^1 contraction (implies L^1 bounds for lambda and v)
@@ -81,7 +82,6 @@ function main(; visualize = true, test = false)
 		p = GridVisualizer(; Plotter = PyPlot, layout = (1, 2), fast = true)
 		scalarplot!(p[1,1], T, l1_u .- l1_u[1]; title = L"Evolution of the $L^1$ norm of $u(t,\cdot) - u(t, \cdot + h)$", size = (500, 200), xlabel = L"t", ylabel = L"$\|u(t) - u_h(t)\|_{L^1} - \|u_0 - u_{0, h}\|_{L^1}$")
 		scalarplot!(p[1, 2], T, l1_contracting_fun .- l1_contracting_fun[1] ; title = L"Evolution of the $L^1$ norm of the contracting function", size = (500, 200), xlabel = L"t", ylabel = L"$\|f(t)\|_{L^1} - \|f(0)\|_{L^1}$")
-		GridVisualize.save("graphs/png/L1_decrease_shifted.png", p)
 		reveal(p)
 	end
 

@@ -62,8 +62,6 @@ function main(; visualize = true, test = false)
 		u0, v0, lambda0, 
 		sgrid, T, problem_data
 	)
-	
-	
 
 	# Step-by-step visualization
 	if visualize
