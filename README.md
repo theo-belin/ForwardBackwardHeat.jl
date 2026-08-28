@@ -6,7 +6,7 @@
 
 To install Julia, follow the Julia documentation at https://julialang.org/downloads/.
 
-# Installing the project
+# Installing and activating the project
 
 Open your terminal, go to the local folder containing the files of the project and run 
 ```
@@ -15,6 +15,7 @@ Open your terminal, go to the local folder containing the files of the project a
 and then in the REPL run
 ```
 julia> using Pkg
+julia> Pkg.activate(".")
 julia> Pkg.resolve()
 ```
 This installs the julia packages needed to run the code. In case the general registry of packages available in Julia is not yet installed, then you should first run
@@ -22,14 +23,14 @@ This installs the julia packages needed to run the code. In case the general reg
 julia> Pkg.Registry.add("General")
 ```
 
-# Running a script
+# Running a simulation
 
-Choose a script, e.g. <scripts/simulations/dim1/pw_linear/MovingFronts.jl> and run
+Choose a script, e.g. 'simulations/dim1/pw_linear/MovingFronts.jl' and run
 ```
-julia> include("scripts/simulations/dim1/pw_linear/MovingFronts.jl")
+julia> include("simulations/dim1/pw_linear/MovingFronts.jl")
 julia> MovingFronts.main()
 ```
-(The first time, running <main()> can take a while, this is due to the precompilation step embedded in Julia. The following runs are usually much faster.)
+(The first time, running 'Module.main()' can take a while (depending on your processing power), this is due to the precompilation step embedded in Julia. The following runs are usually much faster.)
 
 # Modify a script or files in src
 
