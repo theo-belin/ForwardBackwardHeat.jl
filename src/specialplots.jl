@@ -1,7 +1,7 @@
 function xtplot(
     X,
     tsol;
-    Plotter = GridVisualize.default_plotter(),
+    Plotter = GridVisualize.Plots,
     tscale = :identity,
     tlabel = "t",
     kwargs...,
@@ -47,12 +47,12 @@ end
 # 		height = raw"7cm",
 # 		width = raw"14cm",
 # 		title = title,
-# 		tick_label_style=raw"{font=\small}",
+# 		tick_label_style=raw"{font=small}",
 	
 # 		xmin = x_min,
 # 		xmax = x_max,
 # 		xtick = raw"{0, 0.5, 1}",
-# 		xticklabels = raw"{$0$,$x_0 = \frac{1}{2}$, $1$}",
+# 		xticklabels = raw"{0,x_0 = frac{1}{2}, 1}",
 # 		xlabel_style = raw"{at = {(xticklabel cs:1,0)}}",
 	
 # 		ymin = y_min,
@@ -60,7 +60,7 @@ end
 # 		ytick = ytick_str,
 # 		yticklabels = y_tick_labels,
 	
-# 		xlabel = raw"$x$",
+# 		xlabel = raw"x",
 # 		ylabel = y_label,
 # 		ylabel_style = raw"{at = {(yticklabel cs:1,0)}, rotate = -90}",
 	
@@ -83,12 +83,12 @@ end
 
 # 	axis = create_axis(title, 
 # 	u_min, u_max, u_vals, u_tick_labels, 
-# 	raw"$u$")
+# 	raw"u")
 
 # 	#styles = ["loosely dotted", "loosely dashed", "loosely dashdotted", "loosely dashdotdotted", "solid"]
 # 	marks = ["|", "square", "star", "o", "x"]
 # 	colors = ["red", "red!80!blue", "red!60!blue", "red!40!blue", "red!20!blue", "blue"]
-# 	legends = [raw"$t$ = "*string(t) for t = plot_times]
+# 	legends = [raw"t = "*string(t) for t = plot_times]
 # 	i = 1
 	
 # 	for t = plot_times
@@ -125,12 +125,12 @@ end
 # 	title, file_name
 # 	)
 
-# 	axis = create_axis(title, v_min, v_max, v_vals, v_tick_labels, raw"$v$")
+# 	axis = create_axis(title, v_min, v_max, v_vals, v_tick_labels, raw"v")
 	
 # 	#styles = ["loosely dotted", "loosely dashed", "loosely dashdotted", "loosely dashdotdotted", "solid"]
 # 	colors = ["red", "red!80!blue", "red!60!blue", "red!40!blue", "red!20!blue", "blue"]
 # 	marks = ["|", "Mercedes star", "x", "star", "asterisk"]
-# 	legends = [raw"$t$ = "*string(t) for t = plot_times]
+# 	legends = [raw"t = "*string(t) for t = plot_times]
 # 	i = 1
 	
 # 	for t = plot_times
@@ -175,7 +175,7 @@ end
 # 		title, 
 # 		log_er_max, log_er_min,
 # 		error_vals, error_labels,
-# 		raw"$\log_{10}(\|u_{h} - u_{\text{ex}}\|_{L^p})$"; 
+# 		raw"log_{10}(|u_{h} - u_{{ex}}|_{L^p})"; 
 # 		x_min = log_ms_min, x_max = log_ms_min)
 	
 # 	push!(axis, @pgf PGFPlotsX.Plot(
@@ -215,12 +215,12 @@ end
 # 		width = raw"7cm",
 # 		title = title,
 # 		legend_style = raw"{legend pos = outer north east}",
-# 		tick_label_style=raw"{font=\small}",
+# 		tick_label_style=raw"{font=small}",
 	
 # 		xmin = 0,
 # 		xmax = 1,
 # 		xtick = raw"{0,0.5,1}",
-# 		xticklabels = raw"{$0$,$x_0 = \frac{1}{2}$, $1$}",
+# 		xticklabels = raw"{0,x_0 = frac{1}{2}, 1}",
 # 		xlabel_style = raw"{at = {(xticklabel cs:1,0)}}",
 	
 # 		ymin = t_min,
@@ -228,8 +228,8 @@ end
 # 		ytick = raw"{"*ytick_str*"}",
 # 		yticklabels = t_tick_labels,
 	
-# 		xlabel = raw"$x$",
-# 		ylabel = raw"$t$",
+# 		xlabel = raw"x",
+# 		ylabel = raw"t",
 # 		ylabel_style = raw"{at = {(yticklabel cs:1,0)}, rotate = -90}",
 	
 # 		axis_x_line = "bottom",
@@ -249,7 +249,7 @@ end
 
 # 	t_min = minimum(log10_plot_times)
 # 	t_max = maximum(log10_plot_times)
-# 	axis = create_xt(title, t_min, t_max, [-3, -2, -1, 0], raw"{$10^{-3}$, $10^{-2}$, $10^{-1}$, $1$}")
+# 	axis = create_xt(title, t_min, t_max, [-3, -2, -1, 0], raw"{10^{-3}, 10^{-2}, 10^{-1}, 1}")
 
 # 	function map_tlambda(t,x)
 # 		tlambda(t)[Int(round(x/h)) + 1]
