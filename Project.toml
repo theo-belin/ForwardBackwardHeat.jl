@@ -1,7 +1,7 @@
 name = "ForwardBackwardHeat"
 uuid = "7f745f1e-81aa-47eb-af82-84769935fcc3"
 version = "0.0.1"
-authors = ["Jürgen Fuhrmann <juergen-fuhrmann@web.de> and contributors"]
+authors = ["Théo Belin <theo.belin@proton.me>, Jürgen Fuhrmann <juergen-fuhrmann@web.de>, Pauline Lafitte <pauline.lafitte@centralesupelec.fr>, Vincent Lescarret <vincent.lescarret@proton.me>"]
 
 [deps]
 DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
@@ -16,7 +16,3 @@ SimplexGridFactory = "57bfcd06-606e-45d6-baf4-4ba06da0efd5"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 Triangulate = "f7e6ffb2-c36d-4f8f-a77e-16e897189344"
 VoronoiFVM = "82b139dc-5afc-11e9-35da-9b9bdfd336f3"
-
-[compat]
-Plots = "1.41.7"
-julia = "1.9.0"
