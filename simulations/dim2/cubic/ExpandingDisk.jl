@@ -118,7 +118,7 @@ function main(; visualize = true, test = false)
 	end
 
 	if test
-		print("ExpandingDisk.jl successfu")
+		print("ExpandingDisk.jl successful")
 	end
 end
 

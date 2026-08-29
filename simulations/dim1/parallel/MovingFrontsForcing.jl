@@ -85,7 +85,7 @@ function main(; visualize = true, test = false)
     end
 
 	if test
-		print("MovingFrontsForcing.jl successfu")
+		print("MovingFrontsForcing.jl successful")
 	end
 	
 	tu, tv, tlambda

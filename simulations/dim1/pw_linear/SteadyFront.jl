@@ -77,7 +77,7 @@ function main(; visualize = true, test = false)
     end
 
 	if test
-		print("SteadyFront.jl successfu")
+		print("SteadyFront.jl successful")
 	end
 
 	tu, tv, tlambda

@@ -90,7 +90,7 @@ function main(; visualize = true, test = false)
 	end
 
 	if test
-		print("SteadyState.jl successfu")
+		print("SteadyState.jl successful")
 	end
 end
 

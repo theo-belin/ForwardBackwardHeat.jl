@@ -118,7 +118,7 @@ function main(; visualize = true, test = false)
 	end
 
 	if test
-		print("HalfSpaceFront.jl successfu")
+		print("HalfSpaceFront.jl successful")
 	end
 end
 

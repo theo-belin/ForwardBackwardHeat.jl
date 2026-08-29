@@ -86,7 +86,7 @@ function main(; visualize = true, test = false)
 	end
 
 	if test
-		print("L1Contraction.jl successfu")
+		print("L1Contraction.jl successful")
 	end
 end
 

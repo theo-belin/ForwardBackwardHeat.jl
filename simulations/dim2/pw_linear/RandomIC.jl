@@ -113,7 +113,7 @@ function main(; visualize = true, test = false)
 		end
 	end
 	if test
-		print("OscillatingIC.jl successfu")
+		print("OscillatingIC.jl successful")
 	end
 
 	tu_sin, tv_sin, tlambda_sin, tu_r1, tv_r1, tlambda_r1, 

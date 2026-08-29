@@ -108,7 +108,7 @@ function main(; visualize = true, test = false)
 	end
 
 	if test
-		print("MovingFronts.jl successfu")
+		print("MovingFronts.jl successful")
 	end
 	tu_sat, tv_sat, tlambda_sat, tu_unsat, tv_unsat, tlambda_unsat
 end

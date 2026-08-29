@@ -122,7 +122,7 @@ function main(; visualize = true, test = false)
 	end
 
 	if test
-		print("TwoExpandingDisk.jl successfu")
+		print("TwoExpandingDisk.jl successful")
 	end
 end
 
