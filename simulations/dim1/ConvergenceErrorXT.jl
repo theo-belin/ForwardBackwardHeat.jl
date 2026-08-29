@@ -1,4 +1,4 @@
-module ConvergenceError
+module ConvergenceErrorXT
 
 using Printf
 
@@ -99,14 +99,14 @@ function main(;type = "Smooth", visualize = true, test = false, p = 2)
 	if visualize
 		p = GridVisualizer(; Plotter = Plots, layout = (1, 2), legend = :rt, fast = true, size = (1000, 600))
 		scalarplot!(
-			p[1, 1], log10.(H.^(-1)), log10.(lp_error_PWL.^(-1)); label = "PW", color = :blue,  
+			p[1, 1], log10.(H.^(-1)), log10.(lp_error_PWL.^(-1)); label = "PWL", color = :blue,  
 			title = "Convergence error in L^2_{t,x}", xlabel = "-log(h)", ylabel = "-log-Error",
 			markershape = :circle, markevery = 1
 		)
 		scalarplot!(p[1, 1], log10.(H.^(-1)), log10.(lp_error_Par.^(-1)); label = "Par", color = :green,clear = false)
 		scalarplot!(p[1, 1], log10.(H.^(-1)), log10.(lp_error_Cub.^(-1)); label = "Cub", color = :red, clear = false)
 		scalarplot!(
-			p[1, 2], log10.(H.^(-1)), log10.(l2h1_error_PWL.^(-1)); label = "PW", color = :blue,
+			p[1, 2], log10.(H.^(-1)), log10.(l2h1_error_PWL.^(-1)); label = "PWL", color = :blue,
 			title = "Convergence error in L^2_tH^1_x", xlabel = "-log(h)", ylabel = "-log-Error", 
 			markershape = :circle, markevery = 1
 		)
@@ -116,7 +116,7 @@ function main(;type = "Smooth", visualize = true, test = false, p = 2)
 	end
 	
 	if test
-		print("ConvergenceError.jl successfu")
+		print("ConvergenceError.jl successful")
 	end
 
 	H, [lp_error_PWL, lp_error_Par, lp_error_Cub], [l2h1_error_PWL, l2h1_error_Par, l2h1_error_Cub]
