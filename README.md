@@ -1,12 +1,14 @@
 # ForwardBackwardHeat
 
+This project is based on the julia package [VoronoiFVM.jl](https://github.com/WIAS-PDELib/VoronoiFVM.jl) for finite volume discretisation of reaction-advection-diffusion equations.
+
 [![Build Status](https://github.com/j-fu/ForwardBackwardHeat.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/j-fu/ForwardBackwardHeat.jl/actions/workflows/CI.yml?query=branch%3Amain)
 
 # Installing Julia
 
 To install Julia, follow the Julia documentation at https://julialang.org/downloads/.
 
-# Installing and activating the project
+# Installing libraries and activating the project
 
 Open your terminal, go to the local folder containing the files of the project and run 
 ```
